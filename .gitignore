@@ -1,0 +1,24 @@
+# Datos de entrenamiento: contienen imágenes de personas (se guardan en Google Drive)
+dataset/
+data/
+hagrid/
+*.zip
+
+# Resultados intermedios del entrenamiento
+checkpoints/
+runs/
+logs/
+*.h5
+*.keras
+saved_model/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Credenciales
+.env
+*.json.key
