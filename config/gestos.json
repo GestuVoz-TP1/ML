@@ -1,0 +1,173 @@
+{
+  "version": "3.0",
+  "estado": "pendiente_validacion",
+  "captura": {
+    "fotogramas": 16,
+    "duracion_segundos": 3,
+    "color": "rgb",
+    "camara": "frontal"
+  },
+  "umbral_confianza": 0.85,
+  "clase_rechazo": {
+    "clase": "ninguno",
+    "hagrid": "no_gesture"
+  },
+  "gestos": [
+    {
+      "prioridad": 1,
+      "clase": "gesto_ayuda",
+      "nombre": "Ayuda",
+      "hagrid": "one",
+      "tipo": "estatico",
+      "manos": 1,
+      "intencion": "Pedir ayuda",
+      "pictograma": "b_ayuda",
+      "mensaje": "Necesito ayuda",
+      "instrucciones": "Levantar el brazo por encima de la cabeza con el índice hacia arriba. Mantener uno o dos segundos."
+    },
+    {
+      "prioridad": 2,
+      "clase": "gesto_parar",
+      "nombre": "Parar",
+      "hagrid": "stop",
+      "tipo": "estatico",
+      "manos": 1,
+      "intencion": "Pedir que se detenga",
+      "pictograma": "r_parar",
+      "mensaje": "Para, por favor",
+      "instrucciones": "Brazo extendido hacia la cámara, palma abierta de frente y dedos hacia arriba. La mano queda quieta uno o dos segundos."
+    },
+    {
+      "prioridad": 3,
+      "clase": "gesto_no",
+      "nombre": "No",
+      "hagrid": "dislike",
+      "tipo": "estatico",
+      "manos": 1,
+      "intencion": "Rechazar",
+      "pictograma": "r_no",
+      "mensaje": "No",
+      "instrucciones": "Puño cerrado con el pulgar hacia abajo, a la altura del pecho. Mantener uno o dos segundos."
+    },
+    {
+      "prioridad": 4,
+      "clase": "gesto_si",
+      "nombre": "Sí",
+      "hagrid": "like",
+      "tipo": "estatico",
+      "manos": 1,
+      "intencion": "Aceptar",
+      "pictograma": "r_si",
+      "mensaje": "Sí",
+      "instrucciones": "Puño cerrado con el pulgar hacia arriba, a la altura del pecho. Mantener uno o dos segundos."
+    },
+    {
+      "prioridad": 5,
+      "clase": "gesto_dolor",
+      "nombre": "Me duele",
+      "hagrid": null,
+      "tipo": "dinamico",
+      "manos": 1,
+      "intencion": "Expresar dolor",
+      "pictograma": "s_dolor",
+      "mensaje": "Me duele algo",
+      "instrucciones": "Frotar la barriga en círculos con la mano abierta, dos o tres vueltas."
+    },
+    {
+      "prioridad": 6,
+      "clase": "gesto_descanso",
+      "nombre": "Descanso",
+      "hagrid": "timeout",
+      "tipo": "estatico",
+      "manos": 2,
+      "intencion": "Pedir una pausa",
+      "pictograma": "b_descanso",
+      "mensaje": "Necesito un descanso",
+      "instrucciones": "Formar una T a la altura del pecho: una mano horizontal con la palma hacia abajo y la otra vertical tocando su palma desde abajo."
+    },
+    {
+      "prioridad": 7,
+      "clase": "gesto_beber",
+      "nombre": "Beber",
+      "hagrid": null,
+      "tipo": "dinamico",
+      "manos": 1,
+      "intencion": "Pedir agua",
+      "pictograma": "b_agua",
+      "mensaje": "Quiero agua",
+      "instrucciones": "Mano en forma de C, como sosteniendo un vaso. Llevarla a la boca e inclinarla como al tomar."
+    },
+    {
+      "prioridad": 8,
+      "clase": "gesto_comer",
+      "nombre": "Comer",
+      "hagrid": null,
+      "tipo": "dinamico",
+      "manos": 1,
+      "intencion": "Pedir comida",
+      "pictograma": "c_comer",
+      "mensaje": "Quiero comer",
+      "instrucciones": "Juntar las puntas de los dedos y tocar los labios dos o tres veces."
+    },
+    {
+      "prioridad": 9,
+      "clase": "gesto_silencio",
+      "nombre": "Silencio",
+      "hagrid": "mute",
+      "tipo": "estatico",
+      "manos": 1,
+      "intencion": "Expresar malestar por ruido",
+      "pictograma": "b_silencio",
+      "mensaje": "Quiero silencio",
+      "instrucciones": "Dedo índice vertical sobre los labios. Mantener uno o dos segundos."
+    },
+    {
+      "prioridad": 10,
+      "clase": "gesto_porfavor",
+      "nombre": "Por favor",
+      "hagrid": "holy",
+      "tipo": "estatico",
+      "manos": 2,
+      "intencion": "Pedir con cortesía",
+      "pictograma": "r_porfavor",
+      "mensaje": "Por favor",
+      "instrucciones": "Palmas juntas frente al pecho, con los dedos hacia arriba. Mantener uno o dos segundos."
+    },
+    {
+      "prioridad": 11,
+      "clase": "gesto_termine",
+      "nombre": "Terminé",
+      "hagrid": "xsign",
+      "tipo": "estatico",
+      "manos": 2,
+      "intencion": "Indicar que terminó",
+      "pictograma": "r_termine",
+      "mensaje": "Ya terminé",
+      "instrucciones": "Cruzar los antebrazos frente al pecho formando una X. Mantener uno o dos segundos."
+    },
+    {
+      "prioridad": 12,
+      "clase": "gesto_hola",
+      "nombre": "Hola",
+      "hagrid": "palm",
+      "tipo": "dinamico",
+      "manos": 1,
+      "intencion": "Saludar",
+      "pictograma": "r_hola",
+      "mensaje": "Hola",
+      "instrucciones": "Mano abierta con la palma hacia la cámara, a la altura del hombro. Moverla de lado a lado dos o tres veces."
+    },
+    {
+      "prioridad": 13,
+      "clase": "gesto_abrazo",
+      "nombre": "Abrazo",
+      "hagrid": "hand_heart",
+      "tipo": "estatico",
+      "manos": 2,
+      "intencion": "Pedir afecto",
+      "pictograma": "b_abrazo",
+      "mensaje": "Quiero un abrazo",
+      "instrucciones": "Formar un corazón con las dos manos frente al pecho."
+    }
+  ]
+}
