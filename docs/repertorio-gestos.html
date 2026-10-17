@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Repertorio de gestos GestuVoz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: documento técnico de una columna (~70ch) con fichas de gesto agrupadas por función comunicativa y tablas desplazables */
+:root {
+  --bg: #f6f8f8;
+  --surface: #ffffff;
+  --fg: #1b2626;
+  --muted: #566767;
+  --line: #d5dfdf;
+  --accent: #0f6b6b;
+  --accent-soft: #e2f0ef;
+  --warn: #8a5a00;
+  --warn-soft: #fbf1dc;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111818; --surface: #182222; --fg: #e3eceb; --muted: #9db0af;
+    --line: #2b3a3a; --accent: #5cc2bd; --accent-soft: #19302f;
+    --warn: #f0c46a; --warn-soft: #2e2615; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111818; --surface: #182222; --fg: #e3eceb; --muted: #9db0af;
+  --line: #2b3a3a; --accent: #5cc2bd; --accent-soft: #19302f;
+  --warn: #f0c46a; --warn-soft: #2e2615; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 1.0625rem; line-height: 1.6;
+  padding-inline: 16px; padding-block: 0 4rem;
+}
+.wrap { max-width: 1000px; margin: 0 auto; }
+.prose { max-width: 70ch; }
+header.doc { padding-block: 3rem 2rem; border-bottom: 1px solid var(--line); margin-bottom: 2rem; }
+.eyebrow { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.15; }
+h1 { font-size: clamp(2rem, 5vw, 2.9rem); margin: .4rem 0 1rem; }
+h2 { font-size: 1.6rem; margin: 3.2rem 0 1rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+h3 { font-size: 1.15rem; margin: 1.8rem 0 .5rem; }
+p { margin: 0 0 1rem; }
+.lead { font-size: 1.15rem; color: var(--muted); }
+.meta { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; font-size: .92rem; color: var(--muted); align-items: center; }
+.meta b { color: var(--fg); }
+.status { display: inline-block; font-family: var(--font-mono); font-size: .78rem; padding: .15rem .55rem; border-radius: 4px; background: var(--warn-soft); color: var(--warn); }
+code, .mono { font-family: var(--font-mono); font-size: .88em; }
+.table-wrap { overflow-x: auto; margin: 1rem 0 1.5rem; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { text-align: left; vertical-align: top; padding: .6rem .8rem; border-bottom: 1px solid var(--line); }
+th { font-size: .78rem; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); font-weight: 700; background: var(--bg); }
+tr:last-child td { border-bottom: 0; }
+td.num { font-variant-numeric: tabular-nums; text-align: right; }
+.group-title { display: flex; align-items: baseline; gap: .8rem; flex-wrap: wrap; margin: 2.2rem 0 .3rem; }
+.group-title h3 { margin: 0; }
+.group-title span { color: var(--muted); font-size: .95rem; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1rem; margin: .8rem 0 1rem; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: .55rem; min-width: 0; }
+.card-head { display: flex; align-items: center; gap: .8rem; }
+.glyph { font-size: 1.8rem; line-height: 1; width: 2.6rem; height: 2.6rem; display: grid; place-items: center; background: var(--accent-soft); border-radius: 6px; flex: none; font-family: var(--font-display); color: var(--accent); font-weight: 700; }
+.card h3 { margin: 0; font-size: 1.2rem; }
+.card .cls { font-family: var(--font-mono); font-size: .8rem; color: var(--accent); }
+.prio { margin-left: auto; font-family: var(--font-mono); font-size: .75rem; color: var(--muted); white-space: nowrap; }
+.kv { display: grid; grid-template-columns: 6.6rem 1fr; gap: .25rem .7rem; font-size: .93rem; margin: 0; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; min-width: 0; }
+.how { font-size: .95rem; border-top: 1px dashed var(--line); padding-top: .55rem; margin: 0; }
+.why { font-size: .9rem; color: var(--muted); margin: 0; }
+.tag { display: inline-block; font-size: .75rem; font-family: var(--font-mono); padding: .05rem .45rem; border-radius: 4px; border: 1px solid var(--line); color: var(--muted); }
+.note { background: var(--accent-soft); border-radius: 6px; padding: .9rem 1.1rem; margin: 1rem 0; }
+.note.warn { background: var(--warn-soft); }
+.note > :last-child { margin-bottom: 0; }
+ul, ol { padding-left: 1.3rem; margin: 0 0 1rem; }
+li { margin-bottom: .35rem; }
+.check li { list-style: none; position: relative; }
+.check li::before { content: ""; position: absolute; left: -1.3rem; top: .45em; width: .8rem; height: .8rem; border: 1.5px solid var(--muted); border-radius: 2px; }
+.findings { display: grid; gap: .9rem; margin: 1rem 0; }
+.finding { border-left: 3px solid var(--accent); padding: .1rem 0 .1rem 1rem; }
+.finding h4 { font-family: var(--font-display); font-size: 1.02rem; margin: 0 0 .25rem; }
+.finding p { margin: 0 0 .3rem; }
+.finding .imp { font-size: .93rem; color: var(--muted); }
+.refs { font-size: .92rem; }
+.refs li { margin-bottom: .55rem; overflow-wrap: anywhere; }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 520px) { .kv { grid-template-columns: 1fr; } .kv dt { margin-top: .3rem; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="doc">
+  <div class="eyebrow">GestuVoz · Componente de IA · OE3</div>
+  <h1>Repertorio de gestos y protocolo de recolección de datos</h1>
+  <p class="lead prose">Gestos que reconocerá el modelo MobileNet + LSTM, sustentados en la literatura sobre comunicación de niños con TEA y en el dataset HaGRID, las intenciones comunicativas a las que se asocian y el procedimiento para construir el conjunto de datos propio del proyecto.</p>
+  <div class="meta">
+    <span><b>Versión:</b> 3.0 (propuesta)</span>
+    <span><b>Repertorio inicial:</b> 13 gestos (10 con referencia en HaGRID) + clase de rechazo</span>
+    <span class="status">Pendiente de validación por el asesor especializado</span>
+  </div>
+</header>
+
+<section class="prose">
+<h2 id="base">1. Base documental</h2>
+<p>Este documento atiende una acción prevista en el Project Charter v1.4 frente al riesgo de <em>disponibilidad insuficiente de datos para entrenar y evaluar el modelo</em>: definir anticipadamente los gestos e intenciones que serán reconocidos, establecer un protocolo de recolección de datos, diversificar las muestras, usar data augmentation y evaluar conjuntos de datos públicos compatibles.</p>
+<ul>
+  <li><b>Project Charter v1.4.</b> El sistema reconoce únicamente los gestos definidos dentro del alcance y del conjunto de datos del proyecto, y debe servir como base ampliable con nuevos gestos e intenciones.</li>
+  <li><b>OB2 v2.1, Diseño del componente de IA.</b> Modelo propio MobileNet + LSTM entrenado con TensorFlow y exportado a <code>.tflite</code>. Conjunto de datos propio, con el dataset público HaGRID como referencia para definir las clases. Inferencia local, sin enviar imágenes fuera del dispositivo.</li>
+  <li><b>OB2 v2.1, Capa de datos.</b> Cada gesto se asocia con una única intención comunicativa, y cada intención con un pictograma y un mensaje de voz.</li>
+  <li><b>OB2 v2.1, Tabla 9.</b> Exactitud ≥ 90 %, precisión ≥ 90 % por clase, sensibilidad ≥ 85 %, F1-Score ≥ 0.85 e inferencia ≤ 200 ms.</li>
+  <li><b>Product Backlog, HU004.</b> El tutor activa o desactiva cada gesto en el perfil del niño. Por eso el repertorio puede ser amplio: cada niño usa solo los gestos que puede realizar.</li>
+  <li><b>Población de evaluación.</b> Niños con TEA mayores de cinco años, previa autorización institucional y consentimiento.</li>
+</ul>
+</section>
+
+<section class="prose">
+<h2 id="investigacion">2. Hallazgos de la investigación</h2>
+<p>Se revisó literatura sobre comunicación funcional, sistemas de signos usados con niños con TEA, habilidades motoras para imitar gestos, sensibilidad sensorial, comunicación del dolor y reconocimiento de gestos. Cada hallazgo se acompaña de su consecuencia para el repertorio.</p>
+
+<div class="findings">
+  <div class="finding">
+    <h4>Los niños con TEA usan pocos gestos convencionales; los gestos se enseñan</h4>
+    <p>Los estudios describen menos señalamiento y menos gestos convencionales en niños con TEA, y un mayor uso de gestos de contacto (por ejemplo, llevar al adulto de la mano). Los programas de signos como el de Comunicación Total de Schaeffer enseñan cada signo de forma sistemática, asociado a una función concreta.</p>
+    <p class="imp">Consecuencia: el repertorio se compone de gestos que el tutor enseña, con instrucciones visibles en la aplicación (HU003). Se evitan gestos que dependen de señalar objetos.</p>
+  </div>
+  <div class="finding">
+    <h4>Las mayores dificultades motoras están en la orientación y la forma fina de la mano</h4>
+    <p>Al imitar gestos, los niños con TEA cometen más errores en la forma de la mano, su orientación y la manera de ejecutar el movimiento (ritmo, fluidez), más que en la ubicación general del gesto.</p>
+    <p class="imp">Consecuencia: se eligen gestos con la mano completa, el pulgar o el índice, que se distinguen sobre todo por <b>dónde</b> se hacen (boca, oídos, barriga, sobre la cabeza) y por su movimiento amplio. El conjunto de datos incluye ejecuciones imperfectas para que el modelo las tolere.</p>
+  </div>
+  <div class="finding">
+    <h4>Las primeras peticiones que se enseñan son necesidades básicas y regulación</h4>
+    <p>En Makaton, las primeras etapas cubren necesidades inmediatas como comer, beber e ir al baño. Las guías para familias recomiendan empezar con más, terminado, parar, comer, beber, ayuda, esperar y baño. En el entrenamiento en comunicación funcional, la petición de descanso es la más estudiada, porque reemplaza conductas que buscan escapar de una tarea.</p>
+    <p class="imp">Consecuencia: se incluyen Comer, Beber, Terminé, Parar, Ayuda y Descanso. Más se pide con el tablero.</p>
+  </div>
+  <div class="finding">
+    <h4>Rechazar y expresar malestar son funciones poco atendidas</h4>
+    <p>La enseñanza de peticiones está muy estudiada, pero rara vez se enseña a rechazar. Un estudio reciente con niños mínimamente verbales que usaban comunicación aumentativa encontró que las funciones regulatorias y emocionales seguían siendo la principal carencia.</p>
+    <p class="imp">Consecuencia: se incluyen No, Parar, Silencio y Me duele, además de Sí para responder preguntas del adulto.</p>
+  </div>
+  <div class="finding">
+    <h4>La hipersensibilidad auditiva es frecuente</h4>
+    <p>Se estima que entre un tercio y más de la mitad de los niños con TEA reaccionan con malestar a sonidos cotidianos. Taparse los oídos es una respuesta habitual.</p>
+    <p class="imp">Consecuencia: se incluye un gesto para expresar malestar por el ruido. Se propone Silencio (dedo en los labios), que tiene equivalente en HaGRID; la alternativa de taparse los oídos, más natural pero sin equivalente, se deja a criterio del especialista.</p>
+  </div>
+  <div class="finding">
+    <h4>Comunicar el dolor es difícil sin habla</h4>
+    <p>Los niños con TEA comunican el dolor de formas distintas a sus pares, y el autorreporte, primer paso de la evaluación del dolor, les resulta difícil. La comunicación aumentativa puede ayudarles a expresarlo.</p>
+    <p class="imp">Consecuencia: se incluye Me duele como gesto de alta prioridad por su impacto en la salud y la seguridad. La zona del dolor se precisa luego con el tablero (categoría Salud).</p>
+  </div>
+  <div class="finding">
+    <h4>Los gestos que imitan la acción son más fáciles de aprender a partir de cierta edad</h4>
+    <p>Los gestos que se parecen a lo que representan (llevarse un vaso a la boca para beber) se aprenden con más facilidad, sobre todo en niños mayores. La evidencia no muestra un beneficio mayor específico para niños con necesidades especiales.</p>
+    <p class="imp">Consecuencia: los gestos nuevos son icónicos siempre que es posible. La población del proyecto (mayores de cinco años) es la que más se beneficia de la iconicidad.</p>
+  </div>
+  <div class="finding">
+    <h4>No existe un conjunto de datos de gestos comunicativos de niños con TEA</h4>
+    <p>Los trabajos de reconocimiento de gestos en TEA se centran en el diagnóstico (señalamiento) o en movimientos repetitivos, no en gestos para comunicarse. HaGRIDv2 ofrece 33 clases de gestos estáticos de la mano y una clase sin gesto, ampliada con movimientos naturales para reducir falsos positivos.</p>
+    <p class="imp">Consecuencia: el conjunto de datos propio es un aporte del proyecto. HaGRID se usa para preentrenar el reconocimiento de la forma de la mano en las clases equivalentes, y las secuencias propias aportan el movimiento.</p>
+  </div>
+</div>
+</section>
+
+<section class="prose">
+<h2 id="criterios">3. Criterios de selección</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Criterio</th><th>Qué exige</th></tr></thead>
+  <tbody>
+    <tr><td><b>Función comunicativa</b></td><td>Cubre una función que el niño necesita expresar en el momento: pedir, rechazar, regular la actividad, expresar malestar o relacionarse.</td></tr>
+    <tr><td><b>Baja exigencia motora</b></td><td>Usa la mano completa, el pulgar o el índice. Se distingue por la ubicación y el movimiento amplio, no por posiciones finas de varios dedos.</td></tr>
+    <tr><td><b>Iconicidad</b></td><td>Cuando es posible, imita la acción que representa.</td></tr>
+    <tr><td><b>Distinción visual</b></td><td>Se diferencia de los demás gestos por forma, ubicación o movimiento, para cumplir la precisión ≥ 90 % por clase.</td></tr>
+    <tr><td><b>Encuadre frontal</b></td><td>Se ejecuta dentro del encuadre de la cámara frontal, a una distancia de 0,5 a 1 m.</td></tr>
+    <tr><td><b>Pictograma existente</b></td><td>Su intención ya tiene pictograma y mensaje de voz en la aplicación.</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<section>
+<div class="prose">
+<h2 id="repertorio">4. Repertorio inicial</h2>
+<p>El modelo inicial reconoce <b>13 gestos</b>, organizados en cuatro funciones comunicativas, y una <b>clase de rechazo</b> (<code>ninguno</code>) para responder "No reconocido" en lugar de mostrar un pictograma incorrecto (HU001, HU006). En total son 14 clases de salida.</p>
+<p><b>10 gestos tienen una clase equivalente en HaGRID</b> y parten de un modelo que ya reconoce esa forma de mano. <b>3 gestos son propios</b> (Comer, Beber y Me duele): no existen en HaGRID, pero se mantienen por su valor para la salud y las necesidades básicas, y dependen solo del conjunto de datos del proyecto.</p>
+<p>Cada gesto tiene una <b>prioridad</b> (P1 a P13). Si el modelo no alcanza los criterios de la Tabla 9, se retiran primero los de menor prioridad y se vuelve a entrenar.</p>
+</div>
+
+<div class="group-title"><h3>Pedir</h3><span>necesidades básicas</span></div>
+<div class="cards">
+  <article class="card">
+    <div class="card-head"><div class="glyph" aria-hidden="true">🥤</div><div><h3>Beber</h3><div class="cls">gesto_beber</div></div><span class="prio">P7</span></div>
+    <dl class="kv">
+      <dt>Pictograma</dt><dd>Agua <span class="mono">(b_agua)</span> · "Quiero agua"</dd>
+      <dt>Tipo</dt><dd><span class="tag">dinámico</span> una mano · icónico</dd>
+      <dt>HaGRID</dt><dd>Sin equivalente (gesto propio)</dd>
+    </dl>
+    <p class="how">Mano en forma de C, como sosteniendo un vaso. Llevarla a la boca e inclinarla como al tomar.</p>
+  </article>
+  <article class="card">
+    <div class="card-head"><div class="glyph" aria-hidden="true">🍴</div><div><h3>Comer</h3><div class="cls">gesto_comer</div></div><span class="prio">P8</span></div>
+    <dl class="kv">
+      <dt>Pictograma</dt><dd>Comer <span class="mono">(c_comer)</span> · "Quiero comer"</dd>
+      <dt>Tipo</dt><dd><span class="tag">dinámico</span> una mano · icónico</dd>
+      <dt>HaGRID</dt><dd>Sin equivalente (gesto propio)</dd>
+    </dl>
+    <p class="how">Juntar las puntas de los dedos, como sosteniendo un bocado, y tocar los labios dos o tres veces.</p>
+  </article>
+  <article class="card">
+    <div class="card-head"><div class="glyph" aria-hidden="true">🙏</div><div><h3>Por favor</h3><div class="cls">gesto_porfavor</div></div><span class="prio">P10</span></div>
+    <dl class="kv">
+      <dt>Pictograma</dt><dd>Por favor <span class="mono">(r_porfavor)</span> · "Por favor"</dd>
+      <dt>Tipo</dt><dd><span class="tag">estático</span> dos manos</dd>
+      <dt>HaGRID</dt><dd><span class="mono">holy</span></dd>
+    </dl>
+    <p class="how">Palmas juntas frente al pecho, con los dedos hacia arriba. Mantener uno o dos segundos. Acompaña una petición o la refuerza.</p>
+  </article>
+</div>
+
+<div class="group-title"><h3>Regular la actividad</h3><span>ayuda, pausa, detener, terminar</span></div>
+<div class="cards">
+  <article class="card">
+    <div class="card-head"><div class="glyph" aria-hidden="true">☝️</div><div><h3>Ayuda</h3><div class="cls">gesto_ayuda</div></div><span class="prio">P1</span></div>
+    <dl class="kv">
+      <dt>Pictograma</dt><dd>Ayuda <span class="mono">(b_ayuda)</span> · "Necesito ayuda"</dd>
+      <dt>Tipo</dt><dd><span class="tag">estático</span> una mano</dd>
+      <dt>HaGRID</dt><dd><span class="mono">one</span></dd>
+    </dl>
+    <p class="how">Levantar el brazo por encima de la cabeza con el índice hacia arriba, como al pedir la palabra en clase. Mantener uno o dos segundos.</p>
+  </article>
+  <article class="card">
+    <div class="card-head"><div class="glyph" aria-hidden="true">✋</div><div><h3>Parar</h3><div class="cls">gesto_parar</div></div><span class="prio">P2</span></div>
+    <dl class="kv">
+      <dt>Pictograma</dt><dd>Parar <span class="mono">(r_parar)</span> · "Para, por favor"</dd>
+      <dt>Tipo</dt><dd><span class="tag">estático</span> una mano</dd>
+      <dt>HaGRID</dt><dd><span class="mono">stop</span></dd>
+    </dl>
+    <p class="how">Brazo extendido hacia la cámara, palma abierta de frente y dedos hacia arriba. La mano queda <b>quieta</b> uno o dos segundos.</p>
+  </article>
+  <article class="card">
+    <div class="card-head"><div class="glyph" aria-hidden="true">T</div><div><h3>Descanso</h3><div class="cls">gesto_descanso</div></div><span class="prio">P6</span></div>
+    <dl class="kv">
+      <dt>Pictograma</dt><dd>Descanso <span class="mono">(b_descanso)</span> · "Necesito un descanso"</dd>
+      <dt>Tipo</dt><dd><span class="tag">estático</span> dos manos</dd>
+      <dt>HaGRID</dt><dd><span class="mono">timeout</span></dd>
+    </dl>
+    <p class="how">Formar una T a la altura del pecho: una mano horizontal con la palma hacia abajo y la otra vertical tocando su palma desde abajo.</p>
+  </article>
+  <article class="card">
+    <div class="card-head"><div class="glyph" aria-hidden="true">✖️</div><div><h3>Terminé</h3><div class="cls">gesto_termine</div></div><span class="prio">P11</span></div>
+    <dl class="kv">
+      <dt>Pictograma</dt><dd>Terminé <span class="mono">(r_termine)</span> · "Ya terminé"</dd>
+      <dt>Tipo</dt><dd><span class="tag">estático</span> dos manos</dd>
+      <dt>HaGRID</dt><dd><span class="mono">xsign</span></dd>
+    </dl>
+    <p class="how">Cruzar los antebrazos frente al pecho formando una X. Mantener uno o dos segundos.</p>
+  </article>
+</div>
+
+<div class="group-title"><h3>Expresar malestar</h3><span>físico y sensorial</span></div>
+<div class="cards">
+  <article class="card">
+    <div class="card-head"><div class="glyph" aria-hidden="true">🤕</div><div><h3>Me duele</h3><div class="cls">gesto_dolor</div></div><span class="prio">P5</span></div>
+    <dl class="kv">
+      <dt>Pictograma</dt><dd>Me duele <span class="mono">(s_dolor)</span> · "Me duele algo"</dd>
+      <dt>Tipo</dt><dd><span class="tag">dinámico</span> una mano</dd>
+      <dt>HaGRID</dt><dd>Sin equivalente (gesto propio)</dd>
+    </dl>
+    <p class="how">Frotar la barriga en círculos con la mano abierta, dos o tres vueltas. Después, el adulto pregunta dónde duele con el tablero de Salud.</p>
+  </article>
+  <article class="card">
+    <div class="card-head"><div class="glyph" aria-hidden="true">🤫</div><div><h3>Silencio</h3><div class="cls">gesto_silencio</div></div><span class="prio">P9</span></div>
+    <dl class="kv">
+      <dt>Pictograma</dt><dd>Silencio <span class="mono">(b_silencio)</span> · "Quiero silencio"</dd>
+      <dt>Tipo</dt><dd><span class="tag">estático</span> una mano</dd>
+      <dt>HaGRID</dt><dd><span class="mono">mute</span></dd>
+    </dl>
+    <p class="how">Dedo índice vertical sobre los labios, como al pedir silencio. Mantener uno o dos segundos. Sirve para expresar malestar por el ruido.</p>
+  </article>
+</div>
+
+<div class="group-title"><h3>Relacionarse</h3><span>responder, saludar y expresar afecto</span></div>
+<div class="cards">
+  <article class="card">
+    <div class="card-head"><div class="glyph" aria-hidden="true">👎</div><div><h3>No</h3><div class="cls">gesto_no</div></div><span class="prio">P3</span></div>
+    <dl class="kv">
+      <dt>Pictograma</dt><dd>No <span class="mono">(r_no)</span> · "No"</dd>
+      <dt>Tipo</dt><dd><span class="tag">estático</span> una mano</dd>
+      <dt>HaGRID</dt><dd><span class="mono">dislike</span></dd>
+    </dl>
+    <p class="how">Puño cerrado con el pulgar hacia abajo, a la altura del pecho. Mantener uno o dos segundos.</p>
+  </article>
+  <article class="card">
+    <div class="card-head"><div class="glyph" aria-hidden="true">👍</div><div><h3>Sí</h3><div class="cls">gesto_si</div></div><span class="prio">P4</span></div>
+    <dl class="kv">
+      <dt>Pictograma</dt><dd>Sí <span class="mono">(r_si)</span> · "Sí"</dd>
+      <dt>Tipo</dt><dd><span class="tag">estático</span> una mano</dd>
+      <dt>HaGRID</dt><dd><span class="mono">like</span></dd>
+    </dl>
+    <p class="how">Puño cerrado con el pulgar hacia arriba, a la altura del pecho. Mantener uno o dos segundos.</p>
+  </article>
+  <article class="card">
+    <div class="card-head"><div class="glyph" aria-hidden="true">👋</div><div><h3>Hola</h3><div class="cls">gesto_hola</div></div><span class="prio">P12</span></div>
+    <dl class="kv">
+      <dt>Pictograma</dt><dd>Hola <span class="mono">(r_hola)</span> · "Hola"</dd>
+      <dt>Tipo</dt><dd><span class="tag">dinámico</span> una mano</dd>
+      <dt>HaGRID</dt><dd><span class="mono">palm</span> + movimiento</dd>
+    </dl>
+    <p class="how">Mano abierta con la palma hacia la cámara, a la altura del hombro. Moverla de lado a lado dos o tres veces.</p>
+  </article>
+  <article class="card">
+    <div class="card-head"><div class="glyph" aria-hidden="true">🫶</div><div><h3>Abrazo</h3><div class="cls">gesto_abrazo</div></div><span class="prio">P13</span></div>
+    <dl class="kv">
+      <dt>Pictograma</dt><dd>Abrazo <span class="mono">(b_abrazo)</span> · "Quiero un abrazo"</dd>
+      <dt>Tipo</dt><dd><span class="tag">estático</span> dos manos</dd>
+      <dt>HaGRID</dt><dd><span class="mono">hand_heart</span></dd>
+    </dl>
+    <p class="how">Formar un corazón con las dos manos frente al pecho. Es el gesto de mayor exigencia motora; el especialista confirma si se mantiene.</p>
+  </article>
+</div>
+
+<div class="prose">
+<h3>Clase de rechazo: ninguno</h3>
+<p>Ejemplos que el modelo debe aprender a <b>no</b> clasificar como gesto: manos en reposo o fuera del encuadre, tocarse la cara o el cabello, rascarse, acomodarse, aplaudir, aletear las manos, balancearse, señalar hacia un lado, mostrar el puño, otra persona pasando detrás y gestos incompletos. Incluir aleteo y balanceo es importante porque son movimientos repetitivos frecuentes en niños con TEA y no deben producir un mensaje. Se complementa con la clase <span class="mono">no_gesture</span> de HaGRID.</p>
+
+<h3>Prioridades</h3>
+<p>El orden responde al impacto de no poder comunicar la intención: primero la seguridad y la regulación (Ayuda, Parar, No, Sí, Me duele, Descanso), luego las necesidades básicas (Beber, Comer), luego el malestar sensorial y las peticiones (Silencio, Por favor, Terminé) y por último el saludo y el afecto (Hola, Abrazo), que el niño también puede expresar con el tablero.</p>
+
+<h3>Resumen para la base de datos</h3>
+<p>Los valores de <code>clase_reconocimiento</code> deben coincidir exactamente con las etiquetas de salida del modelo.</p>
+</div>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Prioridad</th><th>clase_reconocimiento</th><th>Gesto</th><th>HaGRID</th><th>Intención comunicativa</th><th>Pictograma</th><th>Mensaje de voz</th></tr></thead>
+  <tbody>
+    <tr><td class="num">1</td><td class="mono">gesto_ayuda</td><td>Ayuda</td><td class="mono">one</td><td>Pedir ayuda</td><td class="mono">b_ayuda</td><td>Necesito ayuda</td></tr>
+    <tr><td class="num">2</td><td class="mono">gesto_parar</td><td>Parar</td><td class="mono">stop</td><td>Pedir que se detenga</td><td class="mono">r_parar</td><td>Para, por favor</td></tr>
+    <tr><td class="num">3</td><td class="mono">gesto_no</td><td>No</td><td class="mono">dislike</td><td>Rechazar</td><td class="mono">r_no</td><td>No</td></tr>
+    <tr><td class="num">4</td><td class="mono">gesto_si</td><td>Sí</td><td class="mono">like</td><td>Aceptar</td><td class="mono">r_si</td><td>Sí</td></tr>
+    <tr><td class="num">5</td><td class="mono">gesto_dolor</td><td>Me duele</td><td>—</td><td>Expresar dolor</td><td class="mono">s_dolor</td><td>Me duele algo</td></tr>
+    <tr><td class="num">6</td><td class="mono">gesto_descanso</td><td>Descanso</td><td class="mono">timeout</td><td>Pedir una pausa</td><td class="mono">b_descanso</td><td>Necesito un descanso</td></tr>
+    <tr><td class="num">7</td><td class="mono">gesto_beber</td><td>Beber</td><td>—</td><td>Pedir agua</td><td class="mono">b_agua</td><td>Quiero agua</td></tr>
+    <tr><td class="num">8</td><td class="mono">gesto_comer</td><td>Comer</td><td>—</td><td>Pedir comida</td><td class="mono">c_comer</td><td>Quiero comer</td></tr>
+    <tr><td class="num">9</td><td class="mono">gesto_silencio</td><td>Silencio</td><td class="mono">mute</td><td>Expresar malestar por ruido</td><td class="mono">b_silencio</td><td>Quiero silencio</td></tr>
+    <tr><td class="num">10</td><td class="mono">gesto_porfavor</td><td>Por favor</td><td class="mono">holy</td><td>Pedir con cortesía</td><td class="mono">r_porfavor</td><td>Por favor</td></tr>
+    <tr><td class="num">11</td><td class="mono">gesto_termine</td><td>Terminé</td><td class="mono">xsign</td><td>Indicar que terminó</td><td class="mono">r_termine</td><td>Ya terminé</td></tr>
+    <tr><td class="num">12</td><td class="mono">gesto_hola</td><td>Hola</td><td class="mono">palm</td><td>Saludar</td><td class="mono">r_hola</td><td>Hola</td></tr>
+    <tr><td class="num">13</td><td class="mono">gesto_abrazo</td><td>Abrazo</td><td class="mono">hand_heart</td><td>Pedir afecto</td><td class="mono">b_abrazo</td><td>Quiero un abrazo</td></tr>
+    <tr><td class="num">—</td><td class="mono">ninguno</td><td colspan="5">Clase de rechazo (con <span class="mono">no_gesture</span> de HaGRID). No se registra en GESTO; produce "No reconocido".</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<section class="prose">
+<h2 id="hagrid">5. Estrategia con HaGRID</h2>
+<p>HaGRIDv2 contiene 1 086 158 imágenes de 65 977 personas adultas, con 33 clases de gestos y una clase <span class="mono">no_gesture</span>. Incluye recuadros de cada mano, puntos de la mano y modelos ya entrenados, entre ellos clasificadores <b>MobileNetV3</b>, la misma familia de red que define el OB2.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Uso</th><th>Cómo se aplica</th></tr></thead>
+  <tbody>
+    <tr><td><b>Extractor de características</b></td><td>Se parte del clasificador MobileNetV3 entrenado por HaGRID como extractor de cada fotograma. Ya reconoce formas de mano aprendidas con un millón de imágenes, por lo que no hace falta descargar el dataset completo (1,5 TB).</td></tr>
+    <tr><td><b>Ajuste fino</b></td><td>Opcionalmente, se ajusta con una muestra de las clases usadas (<span class="mono">one</span>, <span class="mono">stop</span>, <span class="mono">dislike</span>, <span class="mono">like</span>, <span class="mono">timeout</span>, <span class="mono">mute</span>, <span class="mono">holy</span>, <span class="mono">xsign</span>, <span class="mono">palm</span>, <span class="mono">hand_heart</span>) y de <span class="mono">no_gesture</span>.</td></tr>
+    <tr><td><b>Modelo temporal</b></td><td>La LSTM se entrena con las secuencias propias, que aportan el movimiento (Hola, Comer, Beber, Me duele) y la ejecución en el encuadre real de la aplicación.</td></tr>
+    <tr><td><b>Clase de rechazo</b></td><td>La clase <span class="mono">no_gesture</span>, ampliada en HaGRIDv2 con movimientos naturales de las manos, refuerza la clase <span class="mono">ninguno</span> para reducir falsos positivos.</td></tr>
+    <tr><td><b>Menos grabación</b></td><td>Los 10 gestos con equivalente en HaGRID necesitan menos clips propios; el esfuerzo de grabación se concentra en los 3 gestos propios.</td></tr>
+  </tbody>
+</table>
+</div>
+<p><b>Límites.</b> HaGRID solo contiene adultos mayores de 18 años y fotografías sin movimiento, y sus gestos están pensados para controlar dispositivos, no para comunicar intenciones. Por eso el conjunto de datos propio sigue siendo necesario. Su licencia es una variante de Creative Commons Atribución-CompartirIgual 4.0; se cita en el informe y se revisan sus términos.</p>
+<p><b>Gestos de HaGRID descartados.</b> Los que exigen configuraciones finas de varios dedos o no tienen un significado adecuado: <span class="mono">three</span>, <span class="mono">three2</span>, <span class="mono">three3</span>, <span class="mono">four</span>, <span class="mono">two_up</span>, <span class="mono">peace</span>, <span class="mono">rock</span>, <span class="mono">call</span>, <span class="mono">little_finger</span>, <span class="mono">thumb_index</span>, <span class="mono">thumb_index2</span>, <span class="mono">take_picture</span>, <span class="mono">three_gun</span>, <span class="mono">middle_finger</span> y las variantes invertidas. <span class="mono">ok</span>, <span class="mono">point</span>, <span class="mono">grabbing</span> y <span class="mono">grip</span> quedan como posibles ampliaciones.</p>
+<div class="note warn"><p>La lista oficial de HaGRID solo da los nombres de las clases. Las descripciones de <span class="mono">holy</span>, <span class="mono">xsign</span> y <span class="mono">hand_heart</span> deben confirmarse con la imagen de referencia del repositorio antes de grabar.</p></div>
+</section>
+
+<section class="prose">
+<h2 id="confusiones">6. Pares con riesgo de confusión</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Par</th><th>Qué los diferencia</th><th>Medida</th></tr></thead>
+  <tbody>
+    <tr><td>Comer / Beber</td><td>Ambos en la boca. Comer: puntas de los dedos que tocan los labios varias veces. Beber: mano en C que se inclina una vez.</td><td>Son gestos propios: es el par que más clips necesita.</td></tr>
+    <tr><td>Comer / Silencio</td><td>Ambos cerca de los labios. Silencio: un solo dedo vertical, quieto.</td><td>Grabar Silencio estrictamente quieto.</td></tr>
+    <tr><td>Hola / Parar</td><td>Misma mano abierta. Hola se mueve; Parar está quieta.</td><td>Es el caso que justifica la parte LSTM.</td></tr>
+    <tr><td>Sí / No</td><td>Orientación del pulgar.</td><td>Sin volteo vertical ni rotaciones mayores a 15° en el data augmentation.</td></tr>
+    <tr><td>Descanso / Terminé / Por favor / Abrazo</td><td>Los cuatro con dos manos frente al pecho: T, X, palmas juntas y corazón.</td><td>Grabarlos en las mismas sesiones y revisar su matriz de confusión por separado.</td></tr>
+    <tr><td>Me duele / ninguno</td><td>Frotarse la barriga frente a tocarse la ropa o rascarse.</td><td>Incluir en <code>ninguno</code> clips de rascarse y acomodarse la ropa.</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<section class="prose">
+<h2 id="ampliacion">7. Ampliaciones previstas</h2>
+<p>Quedan fuera del modelo inicial por falta de un gesto acordado o por menor prioridad. Sus pictogramas ya existen en la aplicación.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Gesto</th><th>Intención</th><th>Pictograma</th><th>Motivo para posponerlo</th></tr></thead>
+  <tbody>
+    <tr><td>Baño</td><td>Pedir ir al baño</td><td class="mono">b_bano</td><td>Necesidad básica de las primeras etapas de Makaton, pero su forma debe acordarse con el especialista y con la seña usada en la escuela del niño.</td></tr>
+    <tr><td>Más</td><td>Pedir más</td><td class="mono">r_mas</td><td>Sin equivalente en HaGRID; se pide con el tablero.</td></tr>
+    <tr><td>Mucho ruido (taparse los oídos)</td><td>Expresar malestar por ruido</td><td class="mono">b_ruido</td><td>Más natural para niños con TEA que Silencio, pero sin equivalente en HaGRID. El especialista decide cuál de los dos se usa.</td></tr>
+    <tr><td>Dame (<span class="mono">grabbing</span>)</td><td>Pedir un objeto</td><td class="mono">r_quiero</td><td>El objeto pedido no se identifica con el gesto; se precisa con el tablero.</td></tr>
+    <tr><td>Cansado (manos juntas bajo la mejilla)</td><td>Expresar cansancio</td><td class="mono">b_cansado</td><td>Menor urgencia.</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="note">
+<p><b>Cambio respecto al prototipo.</b> El prototipo usaba cuatro gestos provisionales: Hola, Agua, Ayuda y Parar. Con este repertorio, Agua pasa a llamarse Beber y se agregan Sí, No, Me duele, Descanso, Comer, Silencio, Por favor, Terminé y Abrazo. El catálogo de gestos de la aplicación y del backend se actualizará cuando este documento sea aprobado.</p>
+</div>
+</section>
+
+<section class="prose">
+<h2 id="protocolo">8. Protocolo de recolección de datos</h2>
+
+<h3>8.1 Participantes y consentimiento</h3>
+<ul>
+  <li>El conjunto de entrenamiento se construye con <b>adultos voluntarios</b>: integrantes del equipo, familiares y compañeros. No se graba a niños en esta fase; su participación queda para la validación con usuarios prevista en el Charter, con autorización institucional y consentimiento de los padres.</li>
+  <li>Cada participante firma un consentimiento informado que indica la finalidad, que su rostro puede aparecer en las imágenes, dónde se guardan, quién accede y cuándo se eliminan.</li>
+  <li>Cada participante recibe un código (<code>P01</code>, <code>P02</code>…). El nombre solo figura en el consentimiento, que se guarda aparte de los datos.</li>
+  <li>Se busca diversidad de edad, sexo, tamaño de mano, tono de piel, mano dominante y uso de anillos, relojes o mangas largas.</li>
+</ul>
+
+<h3>8.2 Equipo y formato de captura</h3>
+<ul>
+  <li>Herramienta de grabación de GestuVoz (compilación de desarrollo), con la misma cámara frontal y el mismo procesamiento que el reconocimiento real.</li>
+  <li>Teléfono o tablet en soporte fijo, en vertical, a la altura del pecho y a una distancia de 0,5 a 1 m.</li>
+  <li>Cada clip contiene <b>16 fotogramas a color tomados en unos 3 segundos</b>, guardados en <code>dataset/&lt;clase&gt;/&lt;participante&gt;_&lt;número&gt;/</code>.</li>
+  <li>Un clip contiene una sola ejecución del gesto, que empieza y termina dentro de la ventana de captura.</li>
+</ul>
+
+<h3>8.3 Cantidad de datos</h3>
+</section>
+<div class="table-wrap" style="max-width: 70ch;">
+<table>
+  <thead><tr><th>Concepto</th><th>Mínimo</th><th>Objetivo</th></tr></thead>
+  <tbody>
+    <tr><td>Participantes</td><td class="num">8</td><td class="num">12</td></tr>
+    <tr><td>Clips por gesto con equivalente en HaGRID (10 gestos)</td><td class="num">15</td><td class="num">20</td></tr>
+    <tr><td>Clips por gesto propio (Comer, Beber, Me duele)</td><td class="num">25</td><td class="num">30</td></tr>
+    <tr><td>Clips de <code>ninguno</code> por participante</td><td class="num">40</td><td class="num">50</td></tr>
+    <tr><td>Clips por participante</td><td class="num">265</td><td class="num">340</td></tr>
+    <tr><td>Total de clips</td><td class="num">2 120</td><td class="num">4 080</td></tr>
+    <tr><td>Tiempo de grabación por participante</td><td class="num">≈ 22 min</td><td class="num">≈ 28 min</td></tr>
+  </tbody>
+</table>
+</div>
+<section class="prose">
+<p>Se recomienda dividir la grabación de cada participante en dos sesiones para evitar el cansancio, que reduce la calidad de los gestos.</p>
+
+<h3>8.4 Variaciones obligatorias</h3>
+<ul>
+  <li><b>Mano:</b> la mitad con la derecha y la mitad con la izquierda, en los gestos de una mano.</li>
+  <li><b>Iluminación:</b> luz natural, luz artificial y luz baja.</li>
+  <li><b>Fondo:</b> pared lisa y ambiente con objetos (sala, aula).</li>
+  <li><b>Distancia:</b> cerca (≈ 0,5 m) y lejos (≈ 1 m).</li>
+  <li><b>Ejecución:</b> normal, lenta y <b>aproximada</b> (forma de la mano menos precisa o movimiento más corto), para reflejar las dificultades motoras descritas en la sección 2.</li>
+  <li><b>Postura:</b> sentado y de pie.</li>
+</ul>
+
+<h3>8.5 Control de calidad</h3>
+<ul>
+  <li>Se descarta en el momento el clip en que la mano sale del encuadre, el gesto queda incompleto o la imagen sale borrosa.</li>
+  <li>Al cerrar cada sesión, otro integrante revisa el 10 % de los clips y confirma que la etiqueta coincide con el gesto.</li>
+  <li>Se lleva una planilla por sesión: fecha, participante, condiciones, clips por clase y clips descartados.</li>
+</ul>
+
+<h3>8.6 Uso de HaGRID</h3>
+<ul>
+  <li>Se aplica la estrategia de la sección 5: el clasificador MobileNetV3 de HaGRID como extractor de cada fotograma y las secuencias propias para entrenar la LSTM.</li>
+  <li>Solo se descargan, si hace falta, muestras de las 10 clases usadas y de <span class="mono">no_gesture</span>, en la versión de 512 px.</li>
+  <li>Se cita HaGRID en el informe y se verifica que su licencia permita este uso.</li>
+</ul>
+
+<h3>8.7 División de los datos</h3>
+<ul>
+  <li>La división se hace <b>por participante</b>: alrededor de 70 % de los participantes para entrenamiento, 15 % para validación y 15 % para prueba. Si los clips de una misma persona quedan en entrenamiento y prueba, las métricas salen infladas.</li>
+  <li>El conjunto de prueba no se usa hasta la evaluación final contra la Tabla 9.</li>
+</ul>
+
+<h3>8.8 Data augmentation</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Permitido</th><th>No permitido</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>Volteo horizontal (mano derecha ↔ izquierda) · brillo y contraste ±20 % · rotación ±10° · recorte y escala ±10 % · variación de velocidad (tomar los 16 fotogramas con distinto espaciado)</td>
+      <td>Volteo vertical · rotaciones mayores a 15° · invertir el orden de los fotogramas (Hola al revés sigue siendo Hola, pero Comer y Beber pierden su sentido)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>8.9 Privacidad y conservación</h3>
+<ul>
+  <li>Los datos se guardan en una carpeta de Google Drive con acceso restringido al equipo y al asesor. No se suben a GitHub ni se publican.</li>
+  <li>El modelo <code>.tflite</code> no contiene imágenes de los participantes.</li>
+  <li>Las imágenes se eliminan al cierre del proyecto, o antes si un participante retira su consentimiento; en ese caso se eliminan sus clips y el modelo se vuelve a entrenar.</li>
+</ul>
+</section>
+
+<section class="prose">
+<h2 id="aceptacion">9. Criterios de aceptación del modelo</h2>
+<p>Se evalúan sobre el conjunto de prueba (participantes no vistos en el entrenamiento), según la Tabla 9 del OB2.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Métrica</th><th>Criterio</th><th>Cómo se mide</th></tr></thead>
+  <tbody>
+    <tr><td>Exactitud global</td><td class="num">≥ 90 %</td><td>Sobre las 14 clases del conjunto de prueba</td></tr>
+    <tr><td>Precisión por gesto</td><td class="num">≥ 90 %</td><td>Para cada uno de los 13 gestos</td></tr>
+    <tr><td>Sensibilidad (recall)</td><td class="num">≥ 85 %</td><td>Para cada uno de los 13 gestos</td></tr>
+    <tr><td>F1-Score</td><td class="num">≥ 0.85</td><td>Promedio macro de los 13 gestos</td></tr>
+    <tr><td>Latencia de inferencia</td><td class="num">≤ 200 ms</td><td>En un teléfono Android de gama media, con el <code>.tflite</code> final</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Si un gesto no alcanza los criterios, se revisa primero su matriz de confusión y se graban más clips de ese gesto. Si aun así no los alcanza, se retira siguiendo el orden de prioridad de la sección 4.</p>
+<p>En la aplicación, un resultado se acepta solo si la confianza del modelo es de al menos 0,85 y el gesto está habilitado en el perfil del niño (HU004). En cualquier otro caso se muestra "No reconocido" con las opciones de intentar de nuevo o usar pictogramas (HU005, HU011).</p>
+</section>
+
+<section class="prose">
+<h2 id="validacion">10. Validación con el especialista</h2>
+<p>Antes de grabar, el asesor especializado o un profesional que trabaje con niños con TEA (terapeuta de lenguaje, docente de educación especial) revisa:</p>
+<ul class="check">
+  <li>Que cada gesto pueda ser ejecutado por niños con TEA mayores de cinco años con distintos niveles de apoyo.</li>
+  <li>Que las 13 intenciones sean prioritarias para la comunicación diaria y que el orden de prioridad sea adecuado.</li>
+  <li>Que la forma de cada gesto no contradiga señas que el niño ya use en su escuela o terapia (por ejemplo, de la Lengua de Señas Peruana o de un programa de habla signada).</li>
+  <li>Si el malestar por ruido se expresa con Silencio (dedo en los labios) o con taparse los oídos.</li>
+  <li>Si Abrazo (corazón con las manos) es realizable o se reemplaza.</li>
+  <li>La forma del gesto Baño, para incluirlo en una versión posterior.</li>
+  <li>Las instrucciones de cada gesto que verán el tutor y el niño en la aplicación (HU003).</li>
+</ul>
+<div class="note warn">
+<p>Las formas de los gestos de este documento son una propuesta basada en la literatura revisada y en las clases de HaGRID; no existe una lista validada de gestos para niños con TEA. Si el especialista cambia algún gesto, se actualiza la sección 4 antes de grabar. Cambiarlo después obliga a volver a grabar esa clase.</p>
+</div>
+</section>
+
+<section class="prose">
+<h2 id="trazabilidad">11. Trazabilidad</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Elemento</th><th>Relación con este documento</th></tr></thead>
+  <tbody>
+    <tr><td>HU001, HU006</td><td>Reconocer el gesto y mostrar su pictograma; no comunicar un mensaje incorrecto (clase <code>ninguno</code>, umbral 0,85).</td></tr>
+    <tr><td>HU003</td><td>Consultar los gestos con su referencia visual (descripciones de la sección 4).</td></tr>
+    <tr><td>HU004</td><td>Activar en cada perfil solo los gestos que el niño puede realizar.</td></tr>
+    <tr><td>HU005, HU011</td><td>Volver a intentar o pasar al tablero cuando el gesto no se reconoce.</td></tr>
+    <tr><td>RNF-03</td><td>Latencia ≤ 200 ms.</td></tr>
+    <tr><td>Charter, riesgos</td><td>Datos insuficientes y precisión ante variaciones de captura (secciones 8.3 a 8.8).</td></tr>
+    <tr><td>OB2, componente de IA</td><td>MobileNet + LSTM con HaGRID como referencia (sección 5).</td></tr>
+    <tr><td>OB2, Tabla 9</td><td>Criterios de aceptación (sección 9).</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<section class="prose">
+<h2 id="referencias">12. Fuentes consultadas</h2>
+<p>Varias fuentes son estudios con muestras pequeñas o guías para familias; se citan como orientación y deben revisarse en su versión completa antes de incluirlas en el informe.</p>
+<ol class="refs">
+  <li>Uso de gestos en niños con TEA (señalamiento y gestos convencionales): <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8246876" target="_blank" rel="noopener">PMC8246876</a>; <a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2020.573212/pdf" target="_blank" rel="noopener">Frontiers in Psychology, 2020</a>; <a href="https://imfar.confex.com/imfar/2014/webprogram/Paper17501.html" target="_blank" rel="noopener">IMFAR 2014</a>.</li>
+  <li>Imitación de gestos y praxias en TEA: <a href="https://epublications.marquette.edu/bioengin_fac/160" target="_blank" rel="noopener">Salowitz et al., 2013</a>; <a href="https://strathprints.strath.ac.uk/8126/6/strathprints008126.pdf" target="_blank" rel="noopener">Strathclyde, 2008</a>; <a href="https://doaj.org/article/61fa5e361e0f49f7a67069397af46286" target="_blank" rel="noopener">Shield et al., 2017</a>.</li>
+  <li>Entrenamiento en comunicación funcional y petición de descanso: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3659490" target="_blank" rel="noopener">PMC3659490</a>; <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2778458" target="_blank" rel="noopener">PMC2778458</a>.</li>
+  <li>Funciones comunicativas y enseñanza del rechazo: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5951273/table/T3" target="_blank" rel="noopener">PMC5951273</a>; <a href="https://repositories.lib.utexas.edu/handle/2152/6560" target="_blank" rel="noopener">Universidad de Texas</a>; <a href="https://cslp.tongji.edu.cn/8e/73/c34983a364147/page.htm" target="_blank" rel="noopener">resumen del estudio de 2026 sobre niños mínimamente verbales</a>.</li>
+  <li>Makaton y signos iniciales: <a href="https://en.wikipedia.org/wiki/Makaton" target="_blank" rel="noopener">Makaton</a>; <a href="https://www.whittington.nhs.uk/default.asp?c=44964" target="_blank" rel="noopener">Whittington NHS</a>; <a href="https://research-repository.griffith.edu.au/items/0cfc6071-21d6-5ec8-9b5e-1101a4d81a46" target="_blank" rel="noopener">Tan et al., 2014 (Key Word Sign en TEA)</a>.</li>
+  <li>Programa de Comunicación Total de Schaeffer: <a href="https://sid-inico.usal.es/documentacion/programa-de-comunicacion-total-habla-signada-de-b-schaeffer-comunicacion/" target="_blank" rel="noopener">SID-INICO, Universidad de Salamanca</a>; <a href="https://redined.educacion.gob.es/xmlui/handle/11162/1319" target="_blank" rel="noopener">REDINED, Ministerio de Educación de España</a>.</li>
+  <li>Hipersensibilidad auditiva y ruido: <a href="https://imfar.confex.com/imfar/2016/webprogram/Paper22719.html" target="_blank" rel="noopener">IMFAR 2016</a>.</li>
+  <li>Comunicación del dolor: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10749405/" target="_blank" rel="noopener">revisión de alcance, PMC10749405</a>; <a href="https://repository.up.ac.za/handle/2263/56695" target="_blank" rel="noopener">Johnson, Bornman y Tonsing, 2016</a>.</li>
+  <li>Iconicidad en el aprendizaje de signos: <a href="https://www.frontiersin.org/articles/10.3389/fpsyg.2023.1196114" target="_blank" rel="noopener">Frontiers in Psychology, 2023</a>.</li>
+  <li>Reconocimiento de gestos en TEA: <a href="https://arxiv.org/abs/2410.09339v2" target="_blank" rel="noopener">arXiv 2410.09339</a>; <a href="https://openaccess.thecvf.com/content/ICCV2023W/ASI/html/Yoo_Pointing_Gesture_Recognition_via_Self-Supervised_Regularization_for_ASD_Screening_ICCVW_2023_paper.html" target="_blank" rel="noopener">Yoo et al., ICCVW 2023</a>.</li>
+  <li>HaGRID y HaGRIDv2: <a href="https://github.com/ai-forever/hagrid" target="_blank" rel="noopener">repositorio oficial</a>; <a href="https://arxiv.org/abs/2412.01508" target="_blank" rel="noopener">arXiv 2412.01508</a>.</li>
+  <li>Lengua de Señas Peruana: <a href="https://repositorio.minedu.gob.pe/handle/20.500.12799/5545" target="_blank" rel="noopener">Guía de vocabulario básico, MINEDU</a>.</li>
+</ol>
+</section>
+
+<footer>GestuVoz · Taller de Proyecto · Ingeniería de Software · UPC. Documento de trabajo para revisión del equipo y del asesor.</footer>
+</div>
+</body>
+</html>
