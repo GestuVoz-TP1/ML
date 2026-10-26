@@ -26,14 +26,15 @@ imágenes nunca salen del teléfono.
                └─► 14 clases: 13 gestos + "ninguno"
 ```
 
-- **MobileNet** extrae las características de cada fotograma; se parte de los
-  clasificadores MobileNetV3 publicados por
-  [HaGRID](https://github.com/ai-forever/hagrid).
+- **MobileNet** extrae las características de cada fotograma; se parte de
+  MobileNetV3-Large preentrenado en ImageNet y se ajusta con las imágenes de
+  [HaGRIDv2](https://github.com/hukenovs/hagrid).
 - **LSTM** analiza el movimiento y distingue, por ejemplo, Hola (mano que se
   mueve) de Parar (mano quieta).
 - La clase **ninguno** permite responder "No reconocido" en lugar de
   comunicar un mensaje incorrecto.
-- Salida: `gestos.tflite` cuantizado, embebido en la aplicación.
+- Salida: dos modelos `.tflite` (float16) embebidos en la aplicación:
+  `gestos_fotograma.tflite` (MobileNet) y `gestos_secuencia.tflite` (LSTM).
 
 ## Repertorio de gestos
 
@@ -91,6 +92,44 @@ dataset/
 La división en entrenamiento, validación y prueba se hace **por
 participante**, para que las métricas no salgan infladas.
 
+## Entrenamiento
+
+Scripts en [`entrenamiento/`](entrenamiento/), en orden:
+
+| Paso | Script | Qué hace |
+|-----:|--------|----------|
+| 1 | `preparar_recortes.py` | Recorta la mano de cada imagen de HaGRIDv2 (224 × 224) según las clases de `config/gestos.json` |
+| 2 | `entrenar_mobilenet.py` | Ajusta MobileNetV3 por fotograma y lo evalúa en el conjunto de prueba |
+| 3 | `entrenar_lstm.py` | Entrena el LSTM con secuencias sintéticas de 16 fotogramas y lo compara con la votación por mayoría |
+| 4 | `exportar_tflite.py` | Exporta ambos modelos a TensorFlow Lite y mide la latencia |
+
+Rutas configurables con las variables `GV_HAGRID`, `GV_RECORTES` y
+`GV_SALIDA` (ver `entrenamiento/comun.py`). Los resultados se guardan en
+`runs/`, que no se sube al repositorio.
+
+Entorno usado: Python 3.10, TensorFlow 2.10.1 con GPU (CUDA 11).
+
+### Primeros resultados (solo HaGRIDv2)
+
+Primera ronda, con 10 de los 13 gestos (Dolor, Beber y Comer no existen en
+HaGRID y quedan pendientes de datos propios). La división de HaGRID es por
+persona.
+
+| Métrica (por fotograma, 12 000 imágenes de prueba) | Resultado |
+|---------|----------:|
+| Exactitud | 0.989 |
+| Precisión mínima por gesto (Ayuda) | 0.958 |
+| Sensibilidad (macro) | 0.992 |
+| F1 (macro) | 0.991 |
+
+- El LSTM y la votación por mayoría llegan a 0.999–1.000 sobre secuencias
+  sintéticas armadas con imágenes fijas; esto valida el flujo, pero no mide
+  el movimiento real. Falta evaluarlo con videos propios.
+- Tamaño: 6,0 MB (fotograma) + 107 KB (secuencia).
+- Latencia en la CPU del computador: 3,6 ms; falta medirla en el teléfono.
+- HaGRID son fotos de adultos bien encuadradas: se espera que el rendimiento
+  baje con niños y con la cámara del teléfono.
+
 ## Criterios de aceptación (OB2, Tabla 9)
 
 | Métrica | Criterio |
@@ -103,7 +142,8 @@ participante**, para que las métricas no salgan infladas.
 
 ## Integración con la aplicación
 
-1. Copiar `gestos.tflite` a `assets/models/` de Mobile-App.
+1. Copiar `gestos_fotograma.tflite`, `gestos_secuencia.tflite` y
+   `etiquetas.txt` a `assets/models/` de Mobile-App.
 2. Los valores de `clase` de `config/gestos.json` deben coincidir con
    `GESTO.clase_reconocimiento` en la aplicación y en el backend.
 3. La aplicación acepta un resultado solo si la confianza es de al menos 0,85
@@ -114,9 +154,20 @@ participante**, para que las métricas no salgan infladas.
 - [x] Definición del repertorio de gestos (pendiente de validación)
 - [ ] Herramienta de grabación en la aplicación
 - [ ] Recolección del conjunto de datos
-- [ ] Notebook de entrenamiento (Google Colab)
-- [ ] Evaluación contra la Tabla 9
-- [ ] Exportación a TensorFlow Lite e integración
+- [x] Scripts de entrenamiento (MobileNetV3 + LSTM) con HaGRIDv2
+- [ ] Evaluación contra la Tabla 9 con videos propios
+- [x] Exportación a TensorFlow Lite
+- [ ] Integración en la aplicación y medición en el teléfono
+
+## Créditos
+
+Este proyecto usa **HaGRIDv2** (A. Nuzhdin, A. Nagaev, A. Sautin,
+A. Kapitanov y K. Kvanchiani, 2024,
+[arXiv:2412.01508](https://arxiv.org/abs/2412.01508)), versión ampliada de
+HaGRID (Kapitanov et al., WACV 2024), publicado bajo la licencia
+[Creative Commons Attribution-ShareAlike 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+en <https://github.com/hukenovs/hagrid>. Los modelos de este repositorio se
+entrenaron con imágenes de ese conjunto. Las imágenes no se redistribuyen.
 
 ---
 
