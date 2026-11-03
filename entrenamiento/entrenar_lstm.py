@@ -1,25 +1,15 @@
-"""Paso 3: entrena el LSTM que decide el gesto a partir de 16 fotogramas.
-
-HaGRID solo tiene imágenes, así que las secuencias se arman de forma sintética
-con las características (capa 'caracteristicas') de MobileNet:
-  - sostenido: los 16 fotogramas son del mismo gesto;
-  - transición: el gesto empieza o termina dentro de la ventana;
-  - ruido: el gesto con 1 a 3 fotogramas de otra clase intercalados;
-  - ninguno: manos sin gesto o gestos sueltos que no se mantienen.
-Se compara con la votación por mayoría sobre las predicciones por fotograma.
-"""
 import json
 
 from comun import LONG_SECUENCIA, NINGUNO, RECORTES, SALIDA, TAM, activar_gpu, clases
 
 activar_gpu()
-import numpy as np  # noqa: E402
-import tensorflow as tf  # noqa: E402
-from sklearn.metrics import classification_report  # noqa: E402
+import numpy as np
+import tensorflow as tf
+from sklearn.metrics import classification_report
 
 CLASES = clases()
 I_NINGUNO = CLASES.index(NINGUNO)
-MINIMO_VOTOS = LONG_SECUENCIA // 2  # el gesto debe ocupar al menos la mitad de la ventana
+MINIMO_VOTOS = LONG_SECUENCIA // 2
 
 
 def extraer(modelo, split):
@@ -33,7 +23,6 @@ def extraer(modelo, split):
 
 
 def secuencias(y, n, rng):
-    """Devuelve índices de fotogramas (n, 16) y la etiqueta de cada secuencia."""
     por_clase = [np.flatnonzero(y == c) for c in range(len(CLASES))]
     gestos = [c for c in range(len(CLASES)) if c != I_NINGUNO]
     L = LONG_SECUENCIA
@@ -42,19 +31,19 @@ def secuencias(y, n, rng):
     for i in range(n):
         tipo = rng.random()
         c = rng.choice(gestos)
-        tomar = lambda k, clase: rng.choice(por_clase[clase], k)  # noqa: E731
-        if tipo < 0.40:  # sostenido
+        tomar = lambda k, clase: rng.choice(por_clase[clase], k)
+        if tipo < 0.40:
             fila, etiqueta = tomar(L, c), c
-        elif tipo < 0.60:  # transición
+        elif tipo < 0.60:
             k = rng.integers(2, L - MINIMO_VOTOS + 1)
             partes = [tomar(k, I_NINGUNO), tomar(L - k, c)]
             fila, etiqueta = np.concatenate(partes if rng.random() < 0.5 else partes[::-1]), c
-        elif tipo < 0.80:  # ruido
+        elif tipo < 0.80:
             fila = tomar(L, c)
             for p in rng.choice(L, rng.integers(1, 4), replace=False):
                 fila[p] = tomar(1, rng.choice([g for g in range(len(CLASES)) if g != c]))[0]
             etiqueta = c
-        else:  # ninguno: sin gesto, o gestos sueltos que no se mantienen
+        else:
             fila = tomar(L, I_NINGUNO)
             for p in rng.choice(L, rng.integers(0, MINIMO_VOTOS - 2), replace=False):
                 fila[p] = tomar(1, rng.choice(gestos))[0]

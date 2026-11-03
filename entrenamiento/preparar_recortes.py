@@ -1,9 +1,3 @@
-"""Paso 1: recorta las manos de HaGRIDv2 y arma el subconjunto de entrenamiento.
-
-Cada gesto del repertorio toma sus imágenes de la clase HaGRID equivalente.
-La clase 'ninguno' mezcla manos sin gesto (etiqueta no_gesture) y gestos de
-HaGRID que no están en el repertorio, para que el modelo aprenda a rechazarlos.
-"""
 import argparse
 import csv
 import json
@@ -15,11 +9,10 @@ from PIL import Image
 from comun import ANOTACIONES, IMAGENES, NINGUNO, RECORTES, TAM, cargar_repertorio
 
 POR_SPLIT = {"train": 3000, "val": 400, "test": 1000}
-MARGEN = 1.6  # el recorte cubre 1.6 veces la mano, para incluir algo de contexto (p. ej., la boca en Silencio)
+MARGEN = 1.6
 
 
 def caja_del_gesto(ann, etiqueta):
-    """Caja normalizada [x, y, w, h] del gesto; en gestos de dos manos, la caja que las une."""
     if ann.get("united_bbox") and ann.get("united_label") == etiqueta:
         return ann["united_bbox"]
     cajas = [b for b, l in zip(ann["bboxes"], ann["labels"]) if l == etiqueta]
@@ -66,7 +59,6 @@ def tareas_de_split(split, repertorio, rng):
                 if len(lista) >= cupo:
                     break
             gestos[repertorio[clase_hagrid]] = lista
-        # Negativos: manos sin gesto de cualquier imagen y gestos que no usamos
         for image_id in ids[:400]:
             ann = anns[image_id]
             for b, l in zip(ann["bboxes"], ann["labels"]):

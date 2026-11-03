@@ -1,18 +1,11 @@
-"""Paso 4: exporta los modelos a TensorFlow Lite y mide la latencia en la CPU.
-
-- gestos_fotograma.tflite: imagen 224x224 RGB -> (características, probabilidades)
-- gestos_secuencia.tflite: 16 x características -> probabilidades del gesto
-La latencia se mide en la CPU del computador; la medición válida es
-la del teléfono, que se hará al integrar el modelo en la aplicación.
-"""
 import json
 import time
 
 from comun import CRITERIOS, LONG_SECUENCIA, SALIDA, TAM, activar_gpu, clases
 
 activar_gpu()
-import numpy as np  # noqa: E402
-import tensorflow as tf  # noqa: E402
+import numpy as np
+import tensorflow as tf
 
 
 def convertir(funcion, ruta):
@@ -56,7 +49,6 @@ def main():
 
     ms1 = latencia(r1, (1, TAM, TAM, 3))
     ms2 = latencia(r2, (1, LONG_SECUENCIA, dim))
-    # En la app, MobileNet procesa cada fotograma al llegar; al cerrar la ventana solo falta el LSTM.
     info = {
         "fotograma": {"archivo": r1.name, "kb": round(r1.stat().st_size / 1024), "ms_cpu_pc": round(ms1, 2)},
         "secuencia": {"archivo": r2.name, "kb": round(r2.stat().st_size / 1024), "ms_cpu_pc": round(ms2, 2)},

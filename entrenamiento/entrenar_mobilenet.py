@@ -1,19 +1,12 @@
-"""Paso 2: entrena el clasificador por fotograma (MobileNetV3 + capa de características).
-
-Etapa 1: la base de MobileNetV3 (pesos de ImageNet) queda congelada y solo se
-entrena la cabeza. Etapa 2: se descongela la parte final de la base y se
-ajusta con una tasa de aprendizaje baja. Al final evalúa con el split de prueba
-de HaGRID (personas que no aparecen en entrenamiento) contra los criterios de aceptación.
-"""
 import argparse
 import json
 
 from comun import CRITERIOS, RECORTES, SALIDA, TAM, activar_gpu, clases
 
 activar_gpu()
-import numpy as np  # noqa: E402
-import tensorflow as tf  # noqa: E402
-from sklearn.metrics import classification_report, confusion_matrix  # noqa: E402
+import numpy as np
+import tensorflow as tf
+from sklearn.metrics import classification_report, confusion_matrix
 
 CLASES = clases()
 LOTE = 48
