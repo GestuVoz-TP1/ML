@@ -2,7 +2,7 @@
 
 - gestos_fotograma.tflite: imagen 224x224 RGB -> (características, probabilidades)
 - gestos_secuencia.tflite: 16 x características -> probabilidades del gesto
-La latencia se mide en la CPU del computador; la medición válida para OB2 es
+La latencia se mide en la CPU del computador; la medición válida es
 la del teléfono, que se hará al integrar el modelo en la aplicación.
 """
 import json

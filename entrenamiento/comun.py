@@ -14,7 +14,7 @@ TAM = 224
 LONG_SECUENCIA = 16
 NINGUNO = "ninguno"
 
-# Criterios de aceptación del modelo (OB2, Tabla 9)
+# Criterios de aceptación del modelo
 CRITERIOS = {"exactitud": 0.90, "precision": 0.90, "sensibilidad": 0.85, "f1": 0.85, "latencia_ms": 200}
 
 

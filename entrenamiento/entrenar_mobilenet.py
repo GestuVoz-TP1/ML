@@ -3,7 +3,7 @@
 Etapa 1: la base de MobileNetV3 (pesos de ImageNet) queda congelada y solo se
 entrena la cabeza. Etapa 2: se descongela la parte final de la base y se
 ajusta con una tasa de aprendizaje baja. Al final evalúa con el split de prueba
-de HaGRID (personas que no aparecen en entrenamiento) contra los criterios de OB2.
+de HaGRID (personas que no aparecen en entrenamiento) contra los criterios de aceptación.
 """
 import argparse
 import json
