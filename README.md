@@ -130,7 +130,7 @@ persona.
 - HaGRID son fotos de adultos bien encuadradas: se espera que el rendimiento
   baje con niños y con la cámara del teléfono.
 
-## Criterios de aceptación (OB2, Tabla 9)
+## Criterios de aceptación
 
 | Métrica | Criterio |
 |---------|----------|
@@ -155,7 +155,7 @@ persona.
 - [ ] Herramienta de grabación en la aplicación
 - [ ] Recolección del conjunto de datos
 - [x] Scripts de entrenamiento (MobileNetV3 + LSTM) con HaGRIDv2
-- [ ] Evaluación contra la Tabla 9 con videos propios
+- [ ] Evaluación contra los criterios de aceptación con videos propios
 - [x] Exportación a TensorFlow Lite
 - [ ] Integración en la aplicación y medición en el teléfono
 
