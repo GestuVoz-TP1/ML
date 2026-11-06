@@ -52,18 +52,19 @@ riesgo de confusión) y el protocolo completo de recolección de datos están en
 | 2 | `gesto_parar` | Parar | `stop` | Para, por favor |
 | 3 | `gesto_no` | No | `dislike` | No |
 | 4 | `gesto_si` | Sí | `like` | Sí |
-| 5 | `gesto_dolor` | Me duele | propio | Me duele algo |
+| 5 | `gesto_bano` | Baño | `peace` | Quiero ir al baño |
 | 6 | `gesto_descanso` | Descanso | `timeout` | Necesito un descanso |
-| 7 | `gesto_beber` | Beber | propio | Quiero agua |
-| 8 | `gesto_comer` | Comer | propio | Quiero comer |
+| 7 | `gesto_agua` | Agua | propio | Quiero agua |
+| 8 | `gesto_hambre` | Hambre | propio | Tengo hambre |
 | 9 | `gesto_silencio` | Silencio | `mute` | Quiero silencio |
 | 10 | `gesto_porfavor` | Por favor | `holy` | Por favor |
 | 11 | `gesto_termine` | Terminé | `xsign` | Ya terminé |
 | 12 | `gesto_hola` | Hola | `palm` + movimiento | Hola |
 | 13 | `gesto_abrazo` | Abrazo | `hand_heart` | Quiero un abrazo |
+| 14 | `gesto_dormir` | Dormir | propio | Quiero dormir |
 | — | `ninguno` | Clase de rechazo | `no_gesture` | "No reconocido" |
 
-Si el modelo no alcanza los criterios de aceptación con los 13 gestos, se
+Si el modelo no alcanza los criterios de aceptación con los 14 gestos, se
 retiran primero los de menor prioridad.
 
 ## Conjunto de datos

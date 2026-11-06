@@ -1,5 +1,5 @@
 {
-  "version": "3.0",
+  "version": "3.1",
   "estado": "pendiente_validacion",
   "captura": {
     "fotogramas": 16,
@@ -63,15 +63,15 @@
     },
     {
       "prioridad": 5,
-      "clase": "gesto_dolor",
-      "nombre": "Me duele",
-      "hagrid": null,
-      "tipo": "dinamico",
+      "clase": "gesto_bano",
+      "nombre": "Baño",
+      "hagrid": "peace",
+      "tipo": "estatico",
       "manos": 1,
-      "intencion": "Expresar dolor",
-      "pictograma": "s_dolor",
-      "mensaje": "Me duele algo",
-      "instrucciones": "Frotar la barriga en círculos con la mano abierta, dos o tres vueltas."
+      "intencion": "Pedir ir al baño",
+      "pictograma": "b_bano",
+      "mensaje": "Quiero ir al baño",
+      "instrucciones": "Dedos índice y medio levantados en V, frente al pecho. Mantener uno o dos segundos."
     },
     {
       "prioridad": 6,
@@ -87,8 +87,8 @@
     },
     {
       "prioridad": 7,
-      "clase": "gesto_beber",
-      "nombre": "Beber",
+      "clase": "gesto_agua",
+      "nombre": "Agua",
       "hagrid": null,
       "tipo": "dinamico",
       "manos": 1,
@@ -99,15 +99,15 @@
     },
     {
       "prioridad": 8,
-      "clase": "gesto_comer",
-      "nombre": "Comer",
+      "clase": "gesto_hambre",
+      "nombre": "Hambre",
       "hagrid": null,
       "tipo": "dinamico",
       "manos": 1,
       "intencion": "Pedir comida",
-      "pictograma": "c_comer",
-      "mensaje": "Quiero comer",
-      "instrucciones": "Juntar las puntas de los dedos y tocar los labios dos o tres veces."
+      "pictograma": "b_hambre",
+      "mensaje": "Tengo hambre",
+      "instrucciones": "Mano abierta apoyada en la barriga. Moverla en círculos dos o tres vueltas."
     },
     {
       "prioridad": 9,
@@ -168,6 +168,18 @@
       "pictograma": "b_abrazo",
       "mensaje": "Quiero un abrazo",
       "instrucciones": "Formar un corazón con las dos manos frente al pecho."
+    },
+    {
+      "prioridad": 14,
+      "clase": "gesto_dormir",
+      "nombre": "Dormir",
+      "hagrid": null,
+      "tipo": "dinamico",
+      "manos": 1,
+      "intencion": "Expresar sueño",
+      "pictograma": "b_dormir",
+      "mensaje": "Quiero dormir",
+      "instrucciones": "Mano abierta debajo de la mejilla, como una almohada. Inclinar la cabeza hacia la mano y mantener uno o dos segundos."
     }
   ]
 }
