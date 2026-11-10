@@ -101,11 +101,12 @@ Scripts en [`entrenamiento/`](entrenamiento/), en orden:
 |-----:|--------|----------|
 | 1 | `preparar_recortes.py` | Recorta la mano de cada imagen de HaGRIDv2 (224 × 224) según las clases de `config/gestos.json` |
 | 2 | `entrenar_mobilenet.py` | Ajusta MobileNetV3 por fotograma y lo evalúa en el conjunto de prueba |
-| 3 | `entrenar_lstm.py` | Entrena el LSTM con secuencias sintéticas de 16 fotogramas y lo compara con la votación por mayoría |
-| 4 | `exportar_tflite.py` | Exporta ambos modelos a TensorFlow Lite y mide la latencia |
+| 3 | `extraer_videos.py` | Procesa los videos propios cada 150 ms: detecta las manos, guarda las características de MobileNetV3 y la posición de la mano. Salta los videos ya procesados |
+| 4 | `entrenar_lstm.py` | Entrena el LSTM con secuencias sintéticas y videos propios, y lo evalúa dejando fuera a una persona cada vez |
+| 5 | `exportar_tflite.py` | Exporta ambos modelos a TensorFlow Lite y mide la latencia |
 
-Rutas configurables con las variables `GV_HAGRID`, `GV_RECORTES` y
-`GV_SALIDA` (ver `entrenamiento/comun.py`). Los resultados se guardan en
+Rutas configurables con las variables `GV_HAGRID`, `GV_RECORTES`,
+`GV_VIDEOS`, `GV_SECUENCIAS` y `GV_SALIDA` (ver `entrenamiento/comun.py`). Los resultados se guardan en
 `runs/`, que no se sube al repositorio.
 
 Entorno usado: Python 3.10, TensorFlow 2.10.1 con GPU (CUDA 11).
@@ -131,6 +132,22 @@ persona.
 - HaGRID son fotos de adultos bien encuadradas: se espera que el rendimiento
   baje con niños y con la cámara del teléfono.
 
+### Resultados con videos propios
+
+1116 videos de 6 personas grabados con
+[grabacion_app](https://github.com/GestuVoz-TP1/grabacion_app). Se evalúa
+dejando fuera a una persona cada vez y decidiendo por video, como en la app.
+
+| Regla de aceptación | Gestos bien | Confundidos | Falsas alarmas sin gesto |
+|---------------------|------------:|------------:|-------------------------:|
+| Confianza 0,85, dos lecturas seguidas | 82,2 % | 5,4 % | 29,3 % |
+| Confianza 0,95, dos lecturas seguidas | 78,0 % | 4,0 % | 18,9 % |
+
+- Exactitud por persona (0,85): entre 72 % y 89 %.
+- Gestos más débiles: Ayuda (60 %), Agua (62 %) y Hola (73 %). Cuando
+  fallan, casi siempre no detectan nada en lugar de confundirse.
+- La app usa la regla de 0,95 y pide confirmación antes de hablar.
+
 ## Criterios de aceptación
 
 | Métrica | Criterio |
@@ -143,22 +160,28 @@ persona.
 
 ## Integración con la aplicación
 
-1. Copiar `gestos_fotograma.tflite`, `gestos_secuencia.tflite` y
-   `etiquetas.txt` a `assets/models/` de Mobile-App.
+1. Copiar `gestos_fotograma.tflite`, `gestos_secuencia.tflite`,
+   `etiquetas.txt` y `etiquetas_fotograma.txt` a `assets/models/` de
+   Mobile-App.
 2. Los valores de `clase` de `config/gestos.json` deben coincidir con
    `GESTO.clase_reconocimiento` en la aplicación y en el backend.
-3. La aplicación acepta un resultado solo si la confianza es de al menos 0,85
-   y el gesto está habilitado en el perfil del niño.
+3. Cada paso del LSTM recibe las 128 características del recorte y 4 valores
+   de la mano: centro x e y relativos, tamaño relativo y si hubo mano.
+4. La aplicación acepta un resultado solo si dos lecturas seguidas dan el
+   mismo gesto con confianza de al menos 0,95 y el gesto está habilitado en
+   el perfil del niño.
 
 ## Estado
 
 - [x] Definición del repertorio de gestos (pendiente de validación)
-- [ ] Herramienta de grabación en la aplicación
-- [ ] Recolección del conjunto de datos
+- [x] Herramienta de grabación ([grabacion_app](https://github.com/GestuVoz-TP1/grabacion_app))
+- [x] Recolección del conjunto de datos (6 personas adultas)
 - [x] Scripts de entrenamiento (MobileNetV3 + LSTM) con HaGRIDv2
-- [ ] Evaluación contra los criterios de aceptación con videos propios
+- [x] Evaluación con videos propios (no alcanza aún los criterios de aceptación)
 - [x] Exportación a TensorFlow Lite
-- [ ] Integración en la aplicación y medición en el teléfono
+- [x] Integración en la aplicación
+- [ ] Medición de latencia en el teléfono
+- [ ] Prueba con niños
 
 ## Créditos
 
