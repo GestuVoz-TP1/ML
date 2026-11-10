@@ -1,7 +1,7 @@
 import json
 import time
 
-from comun import CRITERIOS, LONG_SECUENCIA, SALIDA, TAM, activar_gpu, clases
+from comun import CRITERIOS, LONG_SECUENCIA, SALIDA, TAM, activar_gpu, clases, clases_secuencia
 
 activar_gpu()
 import numpy as np
@@ -37,7 +37,7 @@ def main():
     fotograma = tf.keras.models.load_model(SALIDA / "mobilenet" / "mejor.keras")
     secuencia = tf.keras.models.load_model(SALIDA / "lstm" / "lstm.keras")
     extractor = tf.keras.Model(fotograma.input, [fotograma.get_layer("caracteristicas").output, fotograma.output])
-    dim = extractor.outputs[0].shape[-1]
+    dim = secuencia.input_shape[-1]
 
     f1 = tf.function(lambda x: extractor(x, training=False),
                      input_signature=[tf.TensorSpec([1, TAM, TAM, 3], tf.float32, name="imagen")])
@@ -45,7 +45,8 @@ def main():
                      input_signature=[tf.TensorSpec([1, LONG_SECUENCIA, dim], tf.float32, name="caracteristicas")])
     r1 = convertir(f1, destino / "gestos_fotograma.tflite")
     r2 = convertir(f2, destino / "gestos_secuencia.tflite")
-    (destino / "etiquetas.txt").write_text("\n".join(clases()) + "\n", encoding="utf-8")
+    (destino / "etiquetas.txt").write_text("\n".join(clases_secuencia()) + "\n", encoding="utf-8")
+    (destino / "etiquetas_fotograma.txt").write_text("\n".join(clases()) + "\n", encoding="utf-8")
 
     ms1 = latencia(r1, (1, TAM, TAM, 3))
     ms2 = latencia(r2, (1, LONG_SECUENCIA, dim))
